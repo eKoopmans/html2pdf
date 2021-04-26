@@ -308,6 +308,12 @@ Worker.prototype.set = function set(opt) {
             return function set_jsPDF() { this.opt.jsPDF = opt.jsPDF; return this.setPageSize(); }
           case 'pageSize':
             return this.setPageSize.bind(this, opt.pageSize);
+          case 'html2canvas':
+            return function set_html2canvas() {
+              Object.keys(opt.html2canvas || {}).map(function (key) {
+                return this.opt.html2canvas[key] = opt.html2canvas[key];
+              }, this);
+            };
           default:
             // Set any other properties in opt.
             return function set_opt() { this.opt[key] = opt[key] };
